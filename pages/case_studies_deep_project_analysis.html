@@ -112,6 +112,31 @@
       to   {opacity: 1; transform: translateY(0);}
     }
 
+    .case-study-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      color: #1e3a8a;
+      font-family: Inter, sans-serif;
+      font-weight: 600;
+      transition: color 180ms ease, transform 180ms ease;
+    }
+
+    .case-study-back:hover {
+      color: #1d4ed8;
+      transform: translateX(-3px);
+    }
+
+    .case-study-back svg {
+      width: 1.15rem;
+      height: 1.15rem;
+    }
+
+    html[data-theme="dark"] .case-study-back {
+      color: #93c5fd;
+    }
+
 </style>
 </head>
 <body class="bg-background text-text-primary">
@@ -226,9 +251,17 @@
     <section class="section-padding bg-white">
         <div class="container-max">
 
+            <a id="case-study-back"
+               href="homepage_developer_portfolio_hub.html#projects"
+               class="case-study-back hidden">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18-6-6 6-6"/>
+                </svg>
+                Retour aux projets
+            </a>
 
             <!-- Case Study 1 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="taroudant">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-2xl transform rotate-3"></div>
@@ -297,7 +330,7 @@
 
 
             <!-- Case Study 2 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="conges">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6 lg:order-1">
                         <div>
@@ -366,7 +399,7 @@
 
 
             <!-- Case Study 3 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="trading">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-br from-success to-primary rounded-2xl transform rotate-2"></div>
@@ -459,7 +492,7 @@
             </div>
 
             <!-- Case Study 4 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="syerli">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6 lg:order-1">
                         <div>
@@ -551,7 +584,7 @@
             
             
             <!-- Case Study 5 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="portfolio">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-2xl transform rotate-2"></div>
@@ -653,7 +686,7 @@
             </div>
             
             <!-- Case Study 6 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="tpi">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6 lg:order-1">
                         <div>
@@ -745,7 +778,7 @@
 
 
             <!-- Case Study 7 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="adham-fragrance">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-2xl transform rotate-2"></div>
@@ -851,7 +884,7 @@
 
 
             <!-- Case Study 8 -->
-            <div class="mb-20">
+            <div class="mb-20" data-case-study="nparki">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6 lg:order-1">
                         <div>
@@ -1213,6 +1246,28 @@
                 const nowDark = document.documentElement.getAttribute('data-theme') === 'dark';
                 setTheme(nowDark ? 'light' : 'dark');
             });
+        }
+
+        const requestedProject = new URLSearchParams(window.location.search).get('project');
+        const caseStudies = Array.from(document.querySelectorAll('[data-case-study]'));
+        const selectedCaseStudy = caseStudies.find(function(caseStudy) {
+            return caseStudy.dataset.caseStudy === requestedProject;
+        });
+
+        if (selectedCaseStudy) {
+            caseStudies.forEach(function(caseStudy) {
+                caseStudy.hidden = caseStudy !== selectedCaseStudy;
+            });
+
+            const backLink = document.getElementById('case-study-back');
+            if (backLink) {
+                backLink.classList.remove('hidden');
+            }
+
+            const projectTitle = selectedCaseStudy.querySelector('h2');
+            if (projectTitle) {
+                document.title = projectTitle.textContent.trim() + ' | Anass Portfolio';
+            }
         }
 </script>
 </body>
